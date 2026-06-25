@@ -18,5 +18,9 @@ class Settings(BaseSettings):
 
     free_daily_limit: int = 40
 
+    premium_monthly_stars: int = 200
+    premium_quarterly_stars: int = 500
+    premium_yearly_stars: int = 1800
+
 
 settings = Settings()  # type: ignore[call-arg]
