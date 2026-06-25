@@ -7,7 +7,7 @@ from src.database.models.message import Message
 from src.database.models.settings import Settings
 from src.database.models.user import User
 from src.database.repositories.message import MessageRepository
-from src.features.premium.service import SubscriptionService
+from src.features.subscriptions.service import SubscriptionService
 from src.providers.base import BaseProvider
 from src.services.context import ContextService
 from src.services.model import ModelService

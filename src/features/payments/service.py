@@ -6,7 +6,7 @@ from uuid import UUID
 from src.config.settings import settings as app_settings
 from src.database.models.payment import Payment
 from src.database.repositories.payment import PaymentRepository
-from src.features.premium.service import SubscriptionService
+from src.features.subscriptions.service import SubscriptionService
 
 
 class PaymentService:
