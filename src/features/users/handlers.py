@@ -192,6 +192,15 @@ async def cmd_stub(
     await message.answer(localization.get("common.coming_soon", language))
 
 
+@router.message(F.text == "💻 Разработка")
+async def msg_development(
+    message: Message,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    await message.answer(localization.get("dev.text", language))
+
+
 @router.message(F.text.in_(MENU_BUTTONS))
 async def msg_menu_stub(
     message: Message,

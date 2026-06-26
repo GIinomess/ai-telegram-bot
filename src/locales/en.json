@@ -105,6 +105,8 @@
   "search.no_results": "No relevant results found for your query.",
   "search.error": "Internet search failed. Please try again.",
 
+  "dev.text": "💻 <b>Development</b>\n\nHere you can:\n• write and improve code\n• find bugs\n• explain logs\n• do code review\n• work with projects\n• use AI for development\n\nSeparate coding modes are coming soon.\n\nFor now, just send your task as a message — I'll help as an AI assistant.",
+
   "errors.daily_limit": "Daily limit reached: {limit} messages. Come back tomorrow or upgrade to Premium.",
   "errors.premium_required": "This feature requires a Premium subscription.",
   "errors.provider_unavailable": "AI service is temporarily unavailable. Please try again later.",

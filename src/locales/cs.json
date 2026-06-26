@@ -105,6 +105,8 @@
   "search.no_results": "Pro váš dotaz nebyly nalezeny žádné relevantní výsledky.",
   "search.error": "Internetové vyhledávání selhalo. Zkuste to znovu.",
 
+  "dev.text": "💻 <b>Vývoj</b>\n\nZde budete moci:\n• psát a vylepšovat kód\n• hledat chyby\n• vysvětlovat logy\n• dělat code review\n• pracovat s projekty\n• využívat AI pro vývoj\n\nBrzy zde budou k dispozici samostatné režimy pro kód.\n\nZatím stačí napsat svůj úkol jako zprávu — pomůžu jako AI asistent.",
+
   "errors.daily_limit": "Denní limit dosažen: {limit} zpráv. Vraťte se zítra nebo upgradujte na Prémiový.",
   "errors.premium_required": "Tato funkce vyžaduje Prémiové předplatné.",
   "errors.provider_unavailable": "AI služba je dočasně nedostupná. Zkuste to prosím později.",

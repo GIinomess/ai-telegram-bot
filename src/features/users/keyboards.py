@@ -41,7 +41,6 @@ MENU_BUTTONS: frozenset[str] = frozenset(
         "🔎 Интернет-поиск",
         "🎬 Создать видео",
         "📄 Документ",
-        "🎸 Создать песню",
     }
 )
 
@@ -51,15 +50,15 @@ def main_menu_keyboard() -> ReplyKeyboardMarkup:
         keyboard=[
             [
                 KeyboardButton(text="📝 Выбрать модель"),
+                KeyboardButton(text="💻 Разработка"),
+            ],
+            [
                 KeyboardButton(text="🎨 Создать картинку"),
-            ],
-            [
                 KeyboardButton(text="🔎 Интернет-поиск"),
-                KeyboardButton(text="🎬 Создать видео"),
             ],
             [
+                KeyboardButton(text="🎬 Создать видео"),
                 KeyboardButton(text="📄 Документ"),
-                KeyboardButton(text="🎸 Создать песню"),
             ],
             [
                 KeyboardButton(text="🚀 Премиум"),
