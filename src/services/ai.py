@@ -79,6 +79,11 @@ class AIService:
         await self._message_repo.create(chat.id, "user", user_message)
 
         context = await self._context_service.load_context(chat)
+
+        if await self._context_service.needs_summarization(chat.id):
+            await self._run_summarization(chat, context, settings)
+            context = await self._context_service.load_context(chat)
+
         system_prompt = self._prompt_service.build_system_prompt(settings)
         messages = self._prompt_service.build_messages(
             system_prompt, context, user_message

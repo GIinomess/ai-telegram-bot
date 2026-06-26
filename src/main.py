@@ -1,12 +1,19 @@
-import sys
+from __future__ import annotations
+
+import asyncio
 
 import structlog
 
+from src.bot.app import start_polling
 from src.core.logging import configure_logging
 
-configure_logging()
+logger = structlog.get_logger(__name__)
 
-log = structlog.get_logger(__name__)
-log.info("application_ready", stage=1)
 
-sys.exit(0)
+async def main() -> None:
+    configure_logging()
+    await start_polling()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

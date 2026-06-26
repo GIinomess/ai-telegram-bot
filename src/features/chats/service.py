@@ -20,10 +20,8 @@ class ChatService:
         self._message_repo = message_repo
         self._context_service = context_service
 
-    async def create(self, user_id: UUID, model: str) -> Chat:
-        return await self._chat_repo.create(
-            user_id=user_id, title="New Chat", model=model
-        )
+    async def create(self, user_id: UUID, model: str, title: str = "New Chat") -> Chat:
+        return await self._chat_repo.create(user_id=user_id, title=title, model=model)
 
     async def get_by_id(self, chat_id: UUID) -> Chat | None:
         return await self._chat_repo.get_by_id(chat_id)

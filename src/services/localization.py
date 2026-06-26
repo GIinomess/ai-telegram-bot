@@ -22,8 +22,8 @@ class LocalizationService:
                     if isinstance(data, dict):
                         self._translations[lang] = cast(dict[str, str], data)
 
-    def get(self, key: str, language: str, **kwargs: object) -> str:
-        text = self._translations.get(language, {}).get(key)
+    def get(self, key: str, locale: str, **kwargs: object) -> str:
+        text = self._translations.get(locale, {}).get(key)
         if text is None:
             text = self._translations.get(DEFAULT_LANGUAGE, {}).get(key)
         if text is None:
