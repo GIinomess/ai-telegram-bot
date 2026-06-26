@@ -56,6 +56,7 @@
   "history.archived": "Чат архивирован.",
   "history.enter_title": "Введите новое название чата:",
 
+  "model.gemini_limit": "⚠️ лимит",
   "models.title": "Выберите AI-модель",
   "models.free_section": "— Бесплатные —",
   "models.premium_section": "— Премиум ⭐ —",

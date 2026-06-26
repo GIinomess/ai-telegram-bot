@@ -172,6 +172,8 @@ def model_keyboard(
     builder = InlineKeyboardBuilder()
     for model_id in FREE_MODELS:
         label = MODEL_LABELS.get(model_id, model_id)
+        if model_id.startswith("gemini"):
+            label = f"{label} {localization.get('model.gemini_limit', language)}"
         if model_id == current:
             label = f"{label} ✓"
         builder.button(

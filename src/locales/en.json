@@ -56,6 +56,7 @@
   "history.archived": "Chat archived.",
   "history.enter_title": "Enter a new title for the chat:",
 
+  "model.gemini_limit": "⚠️ quota",
   "models.title": "Select AI Model",
   "models.free_section": "— Free —",
   "models.premium_section": "— Premium ⭐ —",

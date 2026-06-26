@@ -56,6 +56,7 @@
   "history.archived": "Chat byl archivován.",
   "history.enter_title": "Zadejte nový název chatu:",
 
+  "model.gemini_limit": "⚠️ limit",
   "models.title": "Vyberte AI model",
   "models.free_section": "— Bezplatné —",
   "models.premium_section": "— Prémiové ⭐ —",
