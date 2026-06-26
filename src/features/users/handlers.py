@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from aiogram import F, Router
-from aiogram.filters import CommandStart
+from aiogram.filters import Command, CommandStart
 from aiogram.types import CallbackQuery, Message
 
 from src.features.settings.keyboards import MODEL_LABELS, model_keyboard
@@ -107,6 +107,7 @@ async def msg_premium(
     )
 
 
+@router.message(Command("account"))
 @router.message(F.text == "👤 Мой профиль")
 async def msg_my_profile(
     message: Message,
@@ -145,6 +146,7 @@ async def msg_my_profile(
     )
 
 
+@router.message(Command("model"))
 @router.message(F.text == "📝 Выбрать модель")
 async def msg_choose_model(
     message: Message,
@@ -165,6 +167,29 @@ async def msg_choose_model(
         localization.get("settings.choose_model", lang),
         reply_markup=model_keyboard(user_settings.default_model, localization, lang),
     )
+
+
+@router.message(Command("help"))
+async def cmd_help(
+    message: Message,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    await message.answer(
+        f"<b>{localization.get('help.title', language)}</b>\n\n"
+        f"{localization.get('help.text', language, support='@support')}",
+    )
+
+
+@router.message(
+    Command("deletecontext", "photo", "video", "music", "slides", "s", "privacy")
+)
+async def cmd_stub(
+    message: Message,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    await message.answer(localization.get("common.coming_soon", language))
 
 
 @router.message(F.text.in_(MENU_BUTTONS))
