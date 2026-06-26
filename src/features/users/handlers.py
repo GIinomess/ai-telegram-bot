@@ -4,6 +4,8 @@ from aiogram import F, Router
 from aiogram.filters import CommandStart
 from aiogram.types import CallbackQuery, Message
 
+from src.features.settings.keyboards import model_keyboard
+from src.features.settings.service import SettingsService
 from src.features.users.keyboards import (
     MENU_BUTTONS,
     LanguageCallback,
@@ -79,6 +81,28 @@ async def cb_language_selected(
         reply_markup=start_screen_keyboard(),
     )
     await callback.answer()
+
+
+@router.message(F.text == "📝 Выбрать модель")
+async def msg_choose_model(
+    message: Message,
+    user_service: UserService,
+    settings_service: SettingsService,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if message.from_user is None:
+        return
+    user = await user_service.get_by_telegram_id(message.from_user.id)
+    if user is None:
+        await message.answer(localization.get("errors.user_not_found", language))
+        return
+    user_settings = await settings_service.get_or_create(user.id)
+    lang = user_settings.language
+    await message.answer(
+        localization.get("settings.choose_model", lang),
+        reply_markup=model_keyboard(user_settings.default_model, localization, lang),
+    )
 
 
 @router.message(F.text.in_(MENU_BUTTONS))
