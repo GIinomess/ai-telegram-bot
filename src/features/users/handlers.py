@@ -4,8 +4,9 @@ from aiogram import F, Router
 from aiogram.filters import CommandStart
 from aiogram.types import CallbackQuery, Message
 
-from src.features.settings.keyboards import model_keyboard
+from src.features.settings.keyboards import MODEL_LABELS, model_keyboard
 from src.features.settings.service import SettingsService
+from src.features.subscriptions.service import SubscriptionService
 from src.features.users.keyboards import (
     MENU_BUTTONS,
     LanguageCallback,
@@ -81,6 +82,44 @@ async def cb_language_selected(
         reply_markup=start_screen_keyboard(),
     )
     await callback.answer()
+
+
+@router.message(F.text == "👤 Мой профиль")
+async def msg_my_profile(
+    message: Message,
+    user_service: UserService,
+    settings_service: SettingsService,
+    subscription_service: SubscriptionService,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if message.from_user is None:
+        return
+    user = await user_service.get_by_telegram_id(message.from_user.id)
+    if user is None:
+        await message.answer(localization.get("errors.user_not_found", language))
+        return
+    user_settings = await settings_service.get_or_create(user.id)
+    is_premium = await subscription_service.is_premium(user.id)
+
+    lang = user_settings.language
+    name = user.first_name
+    if user.username:
+        name = f"{name} (@{user.username})"
+    model_label = MODEL_LABELS.get(
+        user_settings.default_model, user_settings.default_model
+    )
+    premium_key = "profile.premium_yes" if is_premium else "profile.premium_no"
+
+    await message.answer(
+        localization.get(
+            "profile.text",
+            lang,
+            name=name,
+            model=model_label,
+            premium=localization.get(premium_key, lang),
+        ),
+    )
 
 
 @router.message(F.text == "📝 Выбрать модель")
