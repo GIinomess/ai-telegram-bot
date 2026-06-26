@@ -391,46 +391,19 @@ async def cb_chat_delete(
 # ── AI conversation handler ────────────────────────────────────────────────
 
 
-@router.message(ChatStates.active)
-async def msg_chat_active(
+async def _do_ai_stream(
     message: Message,
     state: FSMContext,
-    user_service: UserService,
-    settings_service: SettingsService,
-    chat_service: ChatService,
+    user: User,
+    chat: Chat,
+    user_text: str,
+    is_new: bool,
+    user_settings: Settings,
     ai_service: AIService,
+    chat_service: ChatService,
     localization: LocalizationService,
-    language: str,
+    lang: str,
 ) -> None:
-    if message.from_user is None or not message.text:
-        return
-
-    user_text = message.text.strip()
-    if not user_text:
-        return
-
-    data = await state.get_data()
-    chat_id_str: str = data.get("chat_id") or ""
-    is_new: bool = data.get("is_new", False)
-
-    user_settings_result = await _get_user_and_settings(
-        message.from_user.id, user_service, settings_service
-    )
-    if user_settings_result is None:
-        await message.answer(localization.get("errors.user_not_found", language))
-        return
-    user, user_settings = user_settings_result
-
-    chat_result = await _get_user_and_chat(
-        message.from_user.id, chat_id_str, user_service, chat_service
-    )
-    if chat_result is None:
-        await message.answer(localization.get("errors.chat_not_found", language))
-        return
-    _, chat = chat_result
-
-    lang = user_settings.language
-
     if message.bot:
         await message.bot.send_chat_action(message.chat.id, ChatAction.TYPING)
 
@@ -477,6 +450,59 @@ async def msg_chat_active(
         await state.update_data(is_new=False)
 
 
+@router.message(ChatStates.active)
+async def msg_chat_active(
+    message: Message,
+    state: FSMContext,
+    user_service: UserService,
+    settings_service: SettingsService,
+    chat_service: ChatService,
+    ai_service: AIService,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if message.from_user is None or not message.text:
+        return
+
+    user_text = message.text.strip()
+    if not user_text:
+        return
+
+    data = await state.get_data()
+    chat_id_str: str = data.get("chat_id") or ""
+    is_new: bool = data.get("is_new", False)
+
+    user_settings_result = await _get_user_and_settings(
+        message.from_user.id, user_service, settings_service
+    )
+    if user_settings_result is None:
+        await message.answer(localization.get("errors.user_not_found", language))
+        return
+    user, user_settings = user_settings_result
+
+    chat_result = await _get_user_and_chat(
+        message.from_user.id, chat_id_str, user_service, chat_service
+    )
+    if chat_result is None:
+        await message.answer(localization.get("errors.chat_not_found", language))
+        return
+    _, chat = chat_result
+
+    await _do_ai_stream(
+        message,
+        state,
+        user,
+        chat,
+        user_text,
+        is_new,
+        user_settings,
+        ai_service,
+        chat_service,
+        localization,
+        user_settings.language,
+    )
+
+
 # ── FSM message handler ────────────────────────────────────────────────────
 
 
@@ -521,4 +547,55 @@ async def msg_rename_chat(
     await message.answer(
         chats_list_text(localization, language, is_empty=not chats),
         reply_markup=chats_list_keyboard(chats, localization, language),
+    )
+
+
+# ── Auto-create chat for first message ────────────────────────────────────
+
+
+@router.message(F.text & ~F.text.startswith("/"))
+async def msg_auto_new_chat(
+    message: Message,
+    state: FSMContext,
+    user_service: UserService,
+    settings_service: SettingsService,
+    chat_service: ChatService,
+    ai_service: AIService,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if message.from_user is None or not message.text:
+        return
+
+    user_text = message.text.strip()
+    if not user_text:
+        return
+
+    result = await _get_user_and_settings(
+        message.from_user.id, user_service, settings_service
+    )
+    if result is None:
+        await message.answer(localization.get("errors.user_not_found", language))
+        return
+    user, user_settings = result
+
+    lang = user_settings.language
+    title = localization.get("chat.new_title", lang)
+    chat = await chat_service.create(user.id, user_settings.default_model, title=title)
+
+    await state.set_state(ChatStates.active)
+    await state.update_data(chat_id=str(chat.id), is_new=True)
+
+    await _do_ai_stream(
+        message,
+        state,
+        user,
+        chat,
+        user_text,
+        True,
+        user_settings,
+        ai_service,
+        chat_service,
+        localization,
+        lang,
     )
