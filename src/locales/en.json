@@ -18,7 +18,7 @@
   "profile.premium_yes": "✅ Active",
   "profile.premium_no": "❌ No",
 
-  "welcome.capabilities": "👋 Hi! I'm your AI assistant.\n\nI give you universal access to the best neural networks in one place.\n\nHere you can:\n• chat with ChatGPT, Gemini, Claude, DeepSeek and other models\n• create images\n• generate videos\n• work with documents\n• write texts and ideas\n• create songs and creative content\n\n🎁 Free:\n100 questions per week.\n\nChoose an action below.",
+  "welcome.capabilities": "🤖 <b>What the bot can do</b>\n\nI'll help you tackle tasks quickly using AI:\n\n• answer questions and explain complex things in simple words\n• write, improve and translate texts\n• generate ideas, plans, lists and instructions\n• choose the right model for your task\n• remember context within the selected chat\n• create new chats and return to past conversations\n• help with code in the 💻 Development section\n\nSome features are still in development, but the AI chat already works.\n\nJust send a message — and I'll reply.",
 
   "subscription.check_title": "Channel Subscription Required",
   "subscription.check_text": "To use the bot, please subscribe to our channel.",

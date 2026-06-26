@@ -18,7 +18,7 @@
   "profile.premium_yes": "✅ Aktivní",
   "profile.premium_no": "❌ Ne",
 
-  "welcome.capabilities": "👋 Ahoj! Jsem tvůj AI asistent.\n\nOtevírám ti univerzální přístup k nejlepším neuronovým sítím na jednom místě.\n\nZde můžeš:\n• chatovat s ChatGPT, Gemini, Claude, DeepSeek a dalšími modely\n• vytvářet obrázky\n• generovat videa\n• pracovat s dokumenty\n• psát texty a nápady\n• vytvářet písně a kreativní obsah\n\n🎁 Zdarma:\n100 otázek týdně.\n\nVyber akci níže.",
+  "welcome.capabilities": "🤖 <b>Co umí bot</b>\n\nPomůžu ti rychle řešit úkoly pomocí AI:\n\n• odpovídat na otázky a vysvětlovat složité věci jednoduše\n• psát, vylepšovat a překládat texty\n• generovat nápady, plány, seznamy a návody\n• vybírat model podle úkolu\n• pamatovat si kontext ve vybraném chatu\n• vytvářet nové chaty a vracet se k minulým rozhovorům\n• pomáhat s kódem v sekci 💻 Vývoj\n\nNěkteré sekce jsou zatím ve vývoji, ale běžný AI chat již funguje.\n\nStačí napsat zprávu — a já odpovím.",
 
   "subscription.check_title": "Vyžadováno přihlášení k odběru kanálu",
   "subscription.check_text": "Pro použití bota se přihlaste k odběru našeho kanálu.",

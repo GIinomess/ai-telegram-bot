@@ -11,22 +11,13 @@ from src.features.subscriptions.service import SubscriptionService
 from src.features.users.keyboards import (
     MENU_BUTTONS,
     LanguageCallback,
-    StartCallback,
     language_keyboard,
     main_menu_keyboard,
-    start_screen_keyboard,
 )
 from src.features.users.service import UserService
 from src.services.localization import LocalizationService
 
 router = Router(name="users")
-
-
-def _welcome_text(localization: LocalizationService, lang: str) -> str:
-    return (
-        f"<b>{localization.get('welcome.title', lang)}</b>\n\n"
-        f"{localization.get('welcome.description', lang)}"
-    )
 
 
 @router.message(CommandStart())
@@ -50,8 +41,8 @@ async def cmd_start(
     else:
         lang = existing_user.language
         await message.answer(
-            _welcome_text(localization, lang),
-            reply_markup=start_screen_keyboard(),
+            localization.get("welcome.capabilities", lang),
+            reply_markup=main_menu_keyboard(),
         )
 
 
@@ -78,9 +69,10 @@ async def cb_language_selected(
         language=lang,
     )
 
-    await callback.message.edit_text(
-        _welcome_text(localization, lang),
-        reply_markup=start_screen_keyboard(),
+    await callback.message.edit_reply_markup(reply_markup=None)
+    await callback.message.answer(
+        localization.get("welcome.capabilities", lang),
+        reply_markup=main_menu_keyboard(),
     )
     await callback.answer()
 
@@ -208,19 +200,3 @@ async def msg_menu_stub(
     language: str,
 ) -> None:
     await message.answer(localization.get("common.coming_soon", language))
-
-
-@router.callback_query(StartCallback.filter(F.action == "go"))
-async def cb_start(
-    callback: CallbackQuery,
-    localization: LocalizationService,
-    language: str,
-) -> None:
-    if not isinstance(callback.message, Message):
-        return
-    await callback.answer()
-    await callback.message.edit_reply_markup(reply_markup=None)
-    await callback.message.answer(
-        localization.get("welcome.capabilities", language),
-        reply_markup=main_menu_keyboard(),
-    )
