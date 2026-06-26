@@ -58,7 +58,7 @@ class TestGetProviderName:
 
     def test_gemini_model_maps_to_gemini(self) -> None:
         svc = make_service()
-        assert svc.get_provider_name("gemini-1.5-flash") == "gemini"
+        assert svc.get_provider_name("gemini-2.0-flash") == "gemini"
 
     def test_unknown_model_raises(self) -> None:
         svc = make_service()

@@ -6,10 +6,10 @@ DEFAULT_LANGUAGE: str = "en"
 
 MODEL_PROVIDERS: dict[str, str] = {
     "gpt-4o-mini": "openai",
-    "gemini-1.5-flash": "gemini",
+    "gemini-2.0-flash": "gemini",
 }
 
-FREE_MODELS: tuple[str, ...] = ("gpt-4o-mini", "gemini-1.5-flash")
+FREE_MODELS: tuple[str, ...] = ("gpt-4o-mini", "gemini-2.0-flash")
 
 DEFAULT_MODEL: str = "gpt-4o-mini"
 DEFAULT_CONVERSATION_STYLE: str = "balanced"

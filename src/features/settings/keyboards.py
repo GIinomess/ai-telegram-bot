@@ -27,7 +27,7 @@ LANGUAGE_LABELS: dict[str, str] = {
 
 MODEL_LABELS: dict[str, str] = {
     "gpt-4o-mini": "GPT-4o mini",
-    "gemini-1.5-flash": "Gemini 1.5 Flash",
+    "gemini-2.0-flash": "Gemini 2.0 Flash",
 }
 
 STYLES: tuple[str, ...] = ("balanced", "creative", "precise")
