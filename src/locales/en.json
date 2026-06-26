@@ -14,6 +14,7 @@
   "welcome.title": "Welcome to AI Bot! 🤖",
   "welcome.description": "I can help you with questions, writing, coding, and much more — powered by the latest AI models.",
   "welcome.continue": "Continue →",
+  "welcome.capabilities": "👋 Hi! I'm your AI assistant.\n\nI give you universal access to the best neural networks in one place.\n\nHere you can:\n• chat with ChatGPT, Gemini, Claude, DeepSeek and other models\n• create images\n• generate videos\n• work with documents\n• write texts\n• write code\n• create songs and creative content\n\n🎁 Free:\n100 questions per week.\n\nChoose an action below.",
 
   "subscription.check_title": "Channel Subscription Required",
   "subscription.check_text": "To use the bot, please subscribe to our channel.",
