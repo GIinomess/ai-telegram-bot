@@ -6,6 +6,7 @@ from aiogram.types import CallbackQuery, Message
 
 from src.features.settings.keyboards import MODEL_LABELS, model_keyboard
 from src.features.settings.service import SettingsService
+from src.features.subscriptions.keyboards import premium_keyboard, premium_text
 from src.features.subscriptions.service import SubscriptionService
 from src.features.users.keyboards import (
     MENU_BUTTONS,
@@ -82,6 +83,28 @@ async def cb_language_selected(
         reply_markup=start_screen_keyboard(),
     )
     await callback.answer()
+
+
+@router.message(F.text == "🚀 Премиум")
+async def msg_premium(
+    message: Message,
+    user_service: UserService,
+    subscription_service: SubscriptionService,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if message.from_user is None:
+        return
+    user = await user_service.get_by_telegram_id(message.from_user.id)
+    if user is None:
+        await message.answer(localization.get("errors.user_not_found", language))
+        return
+    subscription = await subscription_service.get_active_subscription(user.id)
+    lang = user.language
+    await message.answer(
+        premium_text(subscription, localization, lang),
+        reply_markup=premium_keyboard(localization, lang),
+    )
 
 
 @router.message(F.text == "👤 Мой профиль")
