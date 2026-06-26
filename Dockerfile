@@ -4,9 +4,15 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 WORKDIR /app
 
-COPY pyproject.toml ./
-RUN uv sync --no-dev --no-install-project
+# Install dependencies first (cached layer)
+COPY pyproject.toml uv.lock ./
+RUN uv sync --no-dev --no-install-project --frozen
 
+# Copy application code
+COPY alembic.ini ./
+COPY scripts/ ./scripts/
 COPY src/ ./src/
 
-CMD ["uv", "run", "python", "-m", "src.main"]
+RUN chmod +x scripts/entrypoint.sh
+
+ENTRYPOINT ["scripts/entrypoint.sh"]
