@@ -29,6 +29,7 @@ from src.features.chats.keyboards import (
 )
 from src.features.chats.service import ChatService
 from src.features.settings.service import SettingsService
+from src.features.subscriptions.keyboards import limit_reached_keyboard
 from src.features.users.service import UserService
 from src.services.ai import AIService
 from src.services.localization import LocalizationService
@@ -451,7 +452,8 @@ async def msg_chat_active(
     except DailyLimitExceededError:
         limit = app_settings.free_daily_limit
         await placeholder.edit_text(
-            localization.get("chat.limit_reached", lang, limit=limit)
+            localization.get("chat.limit_reached", lang, limit=limit),
+            reply_markup=limit_reached_keyboard(localization, lang),
         )
         return
     except ProviderUnavailableError:
