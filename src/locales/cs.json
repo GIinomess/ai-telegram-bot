@@ -109,6 +109,7 @@
 
   "errors.daily_limit": "Denní limit dosažen: {limit} zpráv. Vraťte se zítra nebo upgradujte na Prémiový.",
   "errors.premium_required": "Tato funkce vyžaduje Prémiové předplatné.",
+  "errors.gemini_quota": "Gemini je dočasně nedostupný kvůli limitu Google API. Vyberte GPT v menu modelů a zkuste to znovu.",
   "errors.provider_unavailable": "AI služba je dočasně nedostupná. Zkuste to prosím později.",
   "errors.chat_not_found": "Chat nebyl nalezen.",
   "errors.user_not_found": "Uživatel nebyl nalezen.",

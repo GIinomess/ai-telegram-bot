@@ -14,6 +14,10 @@ class ProviderUnavailableError(AppError):
     pass
 
 
+class GeminiQuotaError(ProviderUnavailableError):
+    pass
+
+
 class ChatNotFoundError(AppError):
     pass
 

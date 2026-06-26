@@ -109,6 +109,7 @@
 
   "errors.daily_limit": "Daily limit reached: {limit} messages. Come back tomorrow or upgrade to Premium.",
   "errors.premium_required": "This feature requires a Premium subscription.",
+  "errors.gemini_quota": "Gemini is temporarily unavailable due to Google API quota limits. Please select GPT in the model menu and try again.",
   "errors.provider_unavailable": "AI service is temporarily unavailable. Please try again later.",
   "errors.chat_not_found": "Chat not found.",
   "errors.user_not_found": "User not found.",

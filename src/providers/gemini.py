@@ -4,10 +4,11 @@ from collections.abc import AsyncGenerator
 
 import structlog
 from google import genai
+from google.genai import errors as genai_errors
 from google.genai import types
 
 from src.providers.base import BaseProvider
-from src.shared.exceptions import ProviderUnavailableError
+from src.shared.exceptions import GeminiQuotaError, ProviderUnavailableError
 
 logger = structlog.get_logger(__name__)
 
@@ -41,6 +42,12 @@ class GeminiProvider(BaseProvider):
                 config=config,
             )
             return response.text or ""
+        except genai_errors.ClientError as e:
+            if e.code == 429 or "RESOURCE_EXHAUSTED" in (e.status or ""):
+                logger.warning("gemini_quota_exceeded", model=model, error=str(e))
+                raise GeminiQuotaError("Gemini quota exceeded") from e
+            logger.error("gemini_api_error", model=model, error=str(e))
+            raise ProviderUnavailableError(f"Gemini error: {e}") from e
         except Exception as e:
             logger.error("gemini_api_error", model=model, error=str(e))
             raise ProviderUnavailableError(f"Gemini error: {e}") from e
@@ -74,6 +81,14 @@ class GeminiProvider(BaseProvider):
             async for chunk in stream:
                 if chunk.text:
                     yield chunk.text
+        except genai_errors.ClientError as e:
+            if e.code == 429 or "RESOURCE_EXHAUSTED" in (e.status or ""):
+                logger.warning(
+                    "gemini_quota_exceeded_stream", model=model, error=str(e)
+                )
+                raise GeminiQuotaError("Gemini quota exceeded") from e
+            logger.error("gemini_stream_error", model=model, error=str(e))
+            raise ProviderUnavailableError(f"Gemini stream error: {e}") from e
         except Exception as e:
             logger.error("gemini_stream_error", model=model, error=str(e))
             raise ProviderUnavailableError(f"Gemini stream error: {e}") from e

@@ -33,7 +33,11 @@ from src.features.subscriptions.keyboards import limit_reached_keyboard
 from src.features.users.service import UserService
 from src.services.ai import AIService
 from src.services.localization import LocalizationService
-from src.shared.exceptions import DailyLimitExceededError, ProviderUnavailableError
+from src.shared.exceptions import (
+    DailyLimitExceededError,
+    GeminiQuotaError,
+    ProviderUnavailableError,
+)
 
 logger = structlog.get_logger(__name__)
 
@@ -428,6 +432,9 @@ async def _do_ai_stream(
             localization.get("chat.limit_reached", lang, limit=limit),
             reply_markup=limit_reached_keyboard(localization, lang),
         )
+        return
+    except GeminiQuotaError:
+        await placeholder.edit_text(localization.get("errors.gemini_quota", lang))
         return
     except ProviderUnavailableError:
         await placeholder.edit_text(
