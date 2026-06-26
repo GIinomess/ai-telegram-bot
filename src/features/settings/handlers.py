@@ -6,9 +6,11 @@ from aiogram.types import CallbackQuery, Message
 
 from src.database.models.settings import Settings
 from src.database.models.user import User
+from src.features.chats.service import ChatService
 from src.features.settings.keyboards import (
     CREATIVITY_VALUES,
     SettingsCallback,
+    chats_list_for_model_keyboard,
     creativity_keyboard,
     language_settings_keyboard,
     model_keyboard,
@@ -83,6 +85,41 @@ async def cb_settings_show(
     await callback.message.edit_text(
         settings_text(user_settings, localization, lang),
         reply_markup=settings_keyboard(user_settings, localization, lang),
+    )
+    await callback.answer()
+
+
+@router.callback_query(SettingsCallback.filter(F.action == "chat_list"))
+async def cb_model_chat_list(
+    callback: CallbackQuery,
+    user_service: UserService,
+    settings_service: SettingsService,
+    chat_service: ChatService,
+    localization: LocalizationService,
+) -> None:
+    if callback.from_user is None or not isinstance(callback.message, Message):
+        return
+
+    result = await _get_user_settings(
+        callback.from_user.id, user_service, settings_service
+    )
+    if result is None:
+        await callback.answer()
+        return
+    user, user_settings = result
+    lang = user_settings.language
+
+    chats = await chat_service.get_user_chats(user.id)
+    header = f"📂 <b>{localization.get('history.title', lang)}</b>"
+    text = (
+        f"{header}\n\n{localization.get('history.empty', lang)}"
+        if not chats
+        else header
+    )
+
+    await callback.message.edit_text(
+        text,
+        reply_markup=chats_list_for_model_keyboard(chats, localization, lang),
     )
     await callback.answer()
 

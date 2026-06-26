@@ -5,7 +5,9 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from src.config.constants import FREE_MODELS, SUPPORTED_LANGUAGES
+from src.database.models.chat import Chat
 from src.database.models.settings import Settings
+from src.features.chats.keyboards import ChatCallback
 from src.services.localization import LocalizationService
 
 # ── Callback data ──────────────────────────────────────────────────────────
@@ -177,8 +179,36 @@ def model_keyboard(
             callback_data=SettingsCallback(action="set_model", value=model_id),
         )
     builder.button(
+        text=localization.get("menu.new_chat", language),
+        callback_data=ChatCallback(action="new"),
+    )
+    builder.button(
+        text=localization.get("menu.my_chats", language),
+        callback_data=SettingsCallback(action="chat_list"),
+    )
+    builder.button(
         text=localization.get("common.back", language),
         callback_data=SettingsCallback(action="show"),
+    )
+    builder.adjust(*([1] * len(FREE_MODELS)), 2, 1)
+    return builder.as_markup()
+
+
+def chats_list_for_model_keyboard(
+    chats: list[Chat],
+    localization: LocalizationService,
+    language: str,
+) -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    for chat in chats:
+        title = chat.title[:25] + "…" if len(chat.title) > 25 else chat.title
+        builder.button(
+            text=f"💬 {title}",
+            callback_data=ChatCallback(action="open", chat_id=str(chat.id)),
+        )
+    builder.button(
+        text=localization.get("common.back", language),
+        callback_data=SettingsCallback(action="model"),
     )
     builder.adjust(1)
     return builder.as_markup()
