@@ -37,7 +37,6 @@ def start_screen_keyboard() -> InlineKeyboardMarkup:
 
 MENU_BUTTONS: frozenset[str] = frozenset(
     {
-        "🎨 Создать картинку",
         "🔎 Интернет-поиск",
         "🎬 Создать видео",
         "📄 Документ",

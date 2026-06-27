@@ -184,6 +184,15 @@ async def cmd_stub(
     await message.answer(localization.get("common.coming_soon", language))
 
 
+@router.message(F.text == "🎨 Создать картинку")
+async def msg_image(
+    message: Message,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    await message.answer(localization.get("image.text", language))
+
+
 @router.message(F.text == "💻 Разработка")
 async def msg_development(
     message: Message,

@@ -106,6 +106,7 @@
   "search.no_results": "No relevant results found for your query.",
   "search.error": "Internet search failed. Please try again.",
 
+  "image.text": "🎨 <b>Image Generation</b>\n\nDescribe what you want to see in the image.\n\nFor example:\n• a cat astronaut on Mars\n• a minimalist logo for an AI bot\n• a cover for a Telegram channel\n\nImage generation directly in the bot is coming soon.",
   "dev.text": "💻 <b>Development</b>\n\nHere you can:\n• write and improve code\n• find bugs\n• explain logs\n• do code review\n• work with projects\n• use AI for development\n\nSeparate coding modes are coming soon.\n\nFor now, just send your task as a message — I'll help as an AI assistant.",
 
   "errors.daily_limit": "Daily limit reached: {limit} messages. Come back tomorrow or upgrade to Premium.",
