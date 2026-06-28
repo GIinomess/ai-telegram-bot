@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import CallbackQuery, Message
 
 from src.features.settings.keyboards import MODEL_LABELS, model_keyboard
@@ -18,6 +20,10 @@ from src.features.users.service import UserService
 from src.services.localization import LocalizationService
 
 router = Router(name="users")
+
+
+class ImageStates(StatesGroup):
+    waiting_prompt = State()
 
 
 @router.message(CommandStart())
@@ -173,9 +179,7 @@ async def cmd_help(
     )
 
 
-@router.message(
-    Command("deletecontext", "photo", "video", "music", "slides", "s", "privacy")
-)
+@router.message(Command("deletecontext", "video", "music", "slides", "s", "privacy"))
 async def cmd_stub(
     message: Message,
     localization: LocalizationService,
@@ -184,13 +188,32 @@ async def cmd_stub(
     await message.answer(localization.get("common.coming_soon", language))
 
 
+@router.message(Command("photo"))
 @router.message(F.text == "🎨 Создать картинку")
 async def msg_image(
     message: Message,
+    state: FSMContext,
     localization: LocalizationService,
     language: str,
 ) -> None:
+    await state.set_state(ImageStates.waiting_prompt)
     await message.answer(localization.get("image.text", language))
+
+
+@router.message(ImageStates.waiting_prompt)
+async def msg_image_prompt(
+    message: Message,
+    state: FSMContext,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if not message.text:
+        await message.answer(localization.get("image.prompt_required", language))
+        return
+    await state.clear()
+    await message.answer(
+        localization.get("image.prompt_received", language, prompt=message.text)
+    )
 
 
 @router.message(F.text == "💻 Разработка")

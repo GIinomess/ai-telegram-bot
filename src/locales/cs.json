@@ -106,6 +106,8 @@
   "search.no_results": "Pro váš dotaz nebyly nalezeny žádné relevantní výsledky.",
   "search.error": "Internetové vyhledávání selhalo. Zkuste to znovu.",
 
+  "image.prompt_received": "✅ Popis přijat:\n\n{prompt}\n\nGenerování obrázků bude připojeno v dalším kroku.",
+  "image.prompt_required": "Prosím, pošli popis jako textovou zprávu.",
   "image.text": "🎨 <b>Vytváření obrázku</b>\n\nPopiš, co chceš vidět na obrázku.\n\nNapříklad:\n• kočka-kosmonaut na Marsu\n• logo pro AI bota v minimalistickém stylu\n• obálka pro Telegram kanál\n\nBrzy zde bude generování obrázků přímo v botu.",
   "dev.text": "💻 <b>Vývoj</b>\n\nZde budete moci:\n• psát a vylepšovat kód\n• hledat chyby\n• vysvětlovat logy\n• dělat code review\n• pracovat s projekty\n• využívat AI pro vývoj\n\nBrzy zde budou k dispozici samostatné režimy pro kód.\n\nZatím stačí napsat svůj úkol jako zprávu — pomůžu jako AI asistent.",
 
