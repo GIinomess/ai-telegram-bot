@@ -14,7 +14,9 @@ from src.features.subscriptions.keyboards import premium_keyboard, premium_text
 from src.features.subscriptions.service import SubscriptionService
 from src.features.users.keyboards import (
     MENU_BUTTONS,
+    ImageCallback,
     LanguageCallback,
+    image_after_keyboard,
     language_keyboard,
     main_menu_keyboard,
 )
@@ -227,9 +229,28 @@ async def msg_image_prompt(
             photo = BufferedInputFile(result, filename="image.png")
         else:
             photo = result
-        await message.answer_photo(photo=photo, caption=html.escape(prompt[:1024]))
+        await message.answer_photo(
+            photo=photo,
+            caption=html.escape(prompt[:1024]),
+            reply_markup=image_after_keyboard(localization, language),
+        )
     except ProviderUnavailableError:
         await message.answer(localization.get("image.error", language))
+
+
+@router.callback_query(ImageCallback.filter(F.action == "create_another"))
+async def cb_image_create_another(
+    callback: CallbackQuery,
+    state: FSMContext,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if not isinstance(callback.message, Message):
+        return
+    await state.set_state(ImageStates.waiting_prompt)
+    await callback.message.edit_reply_markup(reply_markup=None)
+    await callback.message.answer(localization.get("image.text", language))
+    await callback.answer()
 
 
 @router.message(F.text == "💻 Разработка")

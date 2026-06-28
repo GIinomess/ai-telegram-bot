@@ -4,12 +4,18 @@ from aiogram.filters.callback_data import CallbackData
 from aiogram.types import InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
+from src.services.localization import LocalizationService
+
 
 class LanguageCallback(CallbackData, prefix="lang"):
     code: str
 
 
 class StartCallback(CallbackData, prefix="onboard"):
+    action: str
+
+
+class ImageCallback(CallbackData, prefix="img"):
     action: str
 
 
@@ -32,6 +38,17 @@ def language_keyboard() -> InlineKeyboardMarkup:
 def start_screen_keyboard() -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
     builder.button(text="🚀 START", callback_data=StartCallback(action="go"))
+    return builder.as_markup()
+
+
+def image_after_keyboard(
+    localization: LocalizationService, language: str
+) -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text=localization.get("image.create_another", language),
+        callback_data=ImageCallback(action="create_another"),
+    )
     return builder.as_markup()
 
 

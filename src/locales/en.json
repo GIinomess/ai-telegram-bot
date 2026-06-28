@@ -106,6 +106,7 @@
   "search.no_results": "No relevant results found for your query.",
   "search.error": "Internet search failed. Please try again.",
 
+  "image.create_another": "🎨 Create another",
   "image.generating": "🎨 Generating image...",
   "image.error": "Failed to generate the image. Please try again or describe it differently.",
   "image.prompt_required": "Please send your description as a text message.",

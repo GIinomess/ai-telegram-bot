@@ -106,6 +106,7 @@
   "search.no_results": "Pro váš dotaz nebyly nalezeny žádné relevantní výsledky.",
   "search.error": "Internetové vyhledávání selhalo. Zkuste to znovu.",
 
+  "image.create_another": "🎨 Vytvořit další",
   "image.generating": "🎨 Generuji obrázek...",
   "image.error": "Obrázek se nepodařilo vygenerovat. Zkus to znovu nebo popiš jinak.",
   "image.prompt_required": "Prosím, pošli popis jako textovou zprávu.",
