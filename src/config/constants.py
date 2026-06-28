@@ -1,3 +1,5 @@
+from src.config.settings import settings as _settings
+
 APP_NAME: str = "ai-telegram-bot"
 APP_VERSION: str = "0.1.0"
 
@@ -6,10 +8,10 @@ DEFAULT_LANGUAGE: str = "en"
 
 MODEL_PROVIDERS: dict[str, str] = {
     "gpt-4o-mini": "openai",
-    "gemini-2.0-flash": "gemini",
+    _settings.gemini_model: "gemini",
 }
 
-FREE_MODELS: tuple[str, ...] = ("gpt-4o-mini", "gemini-2.0-flash")
+FREE_MODELS: tuple[str, ...] = ("gpt-4o-mini", _settings.gemini_model)
 
 DEFAULT_MODEL: str = "gpt-4o-mini"
 DEFAULT_CONVERSATION_STYLE: str = "balanced"

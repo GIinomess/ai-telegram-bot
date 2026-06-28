@@ -5,6 +5,7 @@ from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from src.config.constants import FREE_MODELS, SUPPORTED_LANGUAGES
+from src.config.settings import settings
 from src.database.models.chat import Chat
 from src.database.models.settings import Settings
 from src.features.chats.keyboards import ChatCallback
@@ -27,9 +28,18 @@ LANGUAGE_LABELS: dict[str, str] = {
     "cs": "🇨🇿 Čeština",
 }
 
+_GEMINI_DISPLAY_NAMES: dict[str, str] = {
+    "gemini-2.5-flash-lite": "Gemini 2.5 Flash Lite",
+    "gemini-2.5-flash": "Gemini 2.5 Flash",
+    "gemini-2.0-flash": "Gemini 2.0 Flash",
+    "gemini-1.5-flash": "Gemini 1.5 Flash",
+}
+
 MODEL_LABELS: dict[str, str] = {
     "gpt-4o-mini": "GPT-4o mini",
-    "gemini-2.0-flash": "Gemini 2.0 Flash",
+    settings.gemini_model: _GEMINI_DISPLAY_NAMES.get(
+        settings.gemini_model, settings.gemini_model
+    ),
 }
 
 STYLES: tuple[str, ...] = ("balanced", "creative", "precise")

@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 
 from src.config.constants import FREE_MODELS
+from src.config.settings import settings
 from src.services.model import ModelService
 from src.shared.exceptions import ProviderUnavailableError
 
@@ -58,7 +59,7 @@ class TestGetProviderName:
 
     def test_gemini_model_maps_to_gemini(self) -> None:
         svc = make_service()
-        assert svc.get_provider_name("gemini-2.0-flash") == "gemini"
+        assert svc.get_provider_name(settings.gemini_model) == "gemini"
 
     def test_unknown_model_raises(self) -> None:
         svc = make_service()

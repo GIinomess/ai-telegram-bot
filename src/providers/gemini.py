@@ -17,7 +17,11 @@ _COST_PER_TOKEN: dict[str, float] = {
     "gemini-1.5-flash": 0.30 / 1_000_000,
     "gemini-1.5-pro": 5.00 / 1_000_000,
     "gemini-2.0-flash": 0.40 / 1_000_000,
+    "gemini-2.5-flash-lite": 0.10 / 1_000_000,
+    "gemini-2.5-flash": 0.30 / 1_000_000,
 }
+
+_DEFAULT_GEMINI_COST_MODEL = "gemini-2.5-flash-lite"
 
 
 class GeminiProvider(BaseProvider):
@@ -110,7 +114,7 @@ class GeminiProvider(BaseProvider):
             return max(1, len(text) // 4)
 
     def estimate_cost(self, token_count: int, model: str) -> float:
-        rate = _COST_PER_TOKEN.get(model, _COST_PER_TOKEN["gemini-2.0-flash"])
+        rate = _COST_PER_TOKEN.get(model, _COST_PER_TOKEN[_DEFAULT_GEMINI_COST_MODEL])
         return round(token_count * rate, 8)
 
     def _convert_messages(
