@@ -112,7 +112,7 @@
   "image.generating": "🎨 Generuji obrázek...",
   "image.error": "Obrázek se nepodařilo vygenerovat. Zkus to znovu nebo popiš jinak.",
   "image.prompt_required": "Prosím, pošli popis jako textovou zprávu.",
-  "image.text": "🎨 <b>Vytváření obrázku</b>\n\nPopiš, co chceš vidět na obrázku.\n\nNapříklad:\n• kočka-kosmonaut na Marsu\n• logo pro AI bota v minimalistickém stylu\n• obálka pro Telegram kanál",
+  "image.text": "🎨 <b>Vytváření obrázku</b>\n\nPopiš, co chceš vidět — já to nakreslím.\n\nPříklady:\n• liška v brýlích čte knihu v útulné kavárně\n• minimalistické logo: písmeno A z blesků\n• západ slunce nad horami ve stylu akvarelu",
   "dev.text": "💻 <b>Vývoj</b>\n\nZde budete moci:\n• psát a vylepšovat kód\n• hledat chyby\n• vysvětlovat logy\n• dělat code review\n• pracovat s projekty\n• využívat AI pro vývoj\n\nBrzy zde budou k dispozici samostatné režimy pro kód.\n\nZatím stačí napsat svůj úkol jako zprávu — pomůžu jako AI asistent.",
 
   "errors.daily_limit": "Denní limit dosažen: {limit} zpráv. Vraťte se zítra nebo upgradujte na Prémiový.",
