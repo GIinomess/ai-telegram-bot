@@ -111,6 +111,7 @@
   "image.create_another": "🎨 Vytvořit další",
   "image.generating": "🎨 Generuji obrázek...",
   "image.error": "Obrázek se nepodařilo vygenerovat. Zkus to znovu nebo popiš jinak.",
+  "image.prompt_too_short": "Popis je příliš krátký. Napiš alespoň pár slov — co má být na obrázku.",
   "image.prompt_required": "Prosím, pošli popis jako textovou zprávu.",
   "image.text": "🎨 <b>Vytváření obrázku</b>\n\nPopiš, co chceš vidět — já to nakreslím.\n\nPříklady:\n• liška v brýlích čte knihu v útulné kavárně\n• minimalistické logo: písmeno A z blesků\n• západ slunce nad horami ve stylu akvarelu",
   "dev.text": "💻 <b>Vývoj</b>\n\nZde budete moci:\n• psát a vylepšovat kód\n• hledat chyby\n• vysvětlovat logy\n• dělat code review\n• pracovat s projekty\n• využívat AI pro vývoj\n\nBrzy zde budou k dispozici samostatné režimy pro kód.\n\nZatím stačí napsat svůj úkol jako zprávu — pomůžu jako AI asistent.",

@@ -111,6 +111,7 @@
   "image.create_another": "🎨 Create another",
   "image.generating": "🎨 Generating image...",
   "image.error": "Failed to generate the image. Please try again or describe it differently.",
+  "image.prompt_too_short": "Description is too short. Write at least a few words describing what should be in the image.",
   "image.prompt_required": "Please send your description as a text message.",
   "image.text": "🎨 <b>Image Generation</b>\n\nDescribe what you want to see — I'll draw it.\n\nExamples:\n• a fox in glasses reading a book in a cozy café\n• minimalist logo: letter A made of lightning bolts\n• sunset over mountains in watercolor style",
   "dev.text": "💻 <b>Development</b>\n\nHere you can:\n• write and improve code\n• find bugs\n• explain logs\n• do code review\n• work with projects\n• use AI for development\n\nSeparate coding modes are coming soon.\n\nFor now, just send your task as a message — I'll help as an AI assistant.",

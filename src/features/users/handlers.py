@@ -222,7 +222,14 @@ async def msg_image_prompt(
         await message.answer(localization.get("image.prompt_required", language))
         return
 
-    prompt = message.text
+    prompt = message.text.strip()
+    if len(prompt) < 10:
+        await message.answer(
+            localization.get("image.prompt_too_short", language),
+            reply_markup=image_prompt_keyboard(localization, language),
+        )
+        return
+
     await state.clear()
     await message.answer(localization.get("image.generating", language))
 
