@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 from collections.abc import AsyncGenerator
 
 import openai
@@ -10,6 +11,8 @@ from src.providers.base import BaseProvider
 from src.shared.exceptions import ProviderUnavailableError
 
 logger = structlog.get_logger(__name__)
+
+_IMAGE_MODEL = "gpt-image-1"
 
 # Output token pricing in USD per token (OpenAI pricing as of 2025)
 _COST_PER_TOKEN: dict[str, float] = {
@@ -79,6 +82,29 @@ class OpenAIProvider(BaseProvider):
         except openai.OpenAIError as e:
             logger.error("openai_stream_error", model=model, error=str(e))
             raise ProviderUnavailableError(f"OpenAI stream error: {e}") from e
+
+    async def generate_image(self, prompt: str) -> str | bytes:
+        try:
+            response = await self._client.images.generate(
+                model=_IMAGE_MODEL,
+                prompt=prompt,
+                size="1024x1024",
+                n=1,
+            )
+            if not response.data:
+                raise ProviderUnavailableError("OpenAI returned empty image data")
+            item = response.data[0]
+            if item.url:
+                return item.url
+            if item.b64_json:
+                return base64.b64decode(item.b64_json)
+            raise ProviderUnavailableError("OpenAI returned no image URL or data")
+        except openai.RateLimitError as e:
+            logger.warning("openai_image_rate_limit")
+            raise ProviderUnavailableError("OpenAI rate limit reached") from e
+        except openai.OpenAIError as e:
+            logger.error("openai_image_error", error=str(e))
+            raise ProviderUnavailableError(f"OpenAI image error: {e}") from e
 
     async def count_tokens(self, text: str, model: str) -> int:
         # Approximation: ~4 characters per token on average

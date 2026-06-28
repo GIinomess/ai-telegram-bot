@@ -21,8 +21,10 @@ from src.features.settings.service import SettingsService
 from src.features.subscriptions.service import SubscriptionService
 from src.features.users.service import UserService
 from src.providers.base import BaseProvider
+from src.providers.openai import OpenAIProvider
 from src.services.ai import AIService
 from src.services.context import ContextService
+from src.services.image import ImageService
 from src.services.model import ModelService
 from src.services.prompt import PromptService
 
@@ -62,6 +64,9 @@ class DIMiddleware(BaseMiddleware):
             context_service = ContextService(message_repo, chat_repo)
 
             data["session"] = session
+            openai_provider = self._providers.get("openai")
+            if isinstance(openai_provider, OpenAIProvider):
+                data["image_service"] = ImageService(openai_provider)
             data["user_service"] = UserService(user_repo, settings_service)
             data["chat_service"] = ChatService(chat_repo, message_repo, context_service)
             data["ai_service"] = AIService(

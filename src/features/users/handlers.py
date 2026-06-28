@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import html
+
 from aiogram import F, Router
 from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from aiogram.types import CallbackQuery, Message
+from aiogram.types import BufferedInputFile, CallbackQuery, Message
 
 from src.features.settings.keyboards import MODEL_LABELS, model_keyboard
 from src.features.settings.service import SettingsService
@@ -17,7 +19,9 @@ from src.features.users.keyboards import (
     main_menu_keyboard,
 )
 from src.features.users.service import UserService
+from src.services.image import ImageService
 from src.services.localization import LocalizationService
+from src.shared.exceptions import ProviderUnavailableError
 
 router = Router(name="users")
 
@@ -204,16 +208,28 @@ async def msg_image(
 async def msg_image_prompt(
     message: Message,
     state: FSMContext,
+    image_service: ImageService,
     localization: LocalizationService,
     language: str,
 ) -> None:
     if not message.text:
         await message.answer(localization.get("image.prompt_required", language))
         return
+
+    prompt = message.text
     await state.clear()
-    await message.answer(
-        localization.get("image.prompt_received", language, prompt=message.text)
-    )
+    await message.answer(localization.get("image.generating", language))
+
+    try:
+        result = await image_service.generate(prompt)
+        photo: BufferedInputFile | str
+        if isinstance(result, bytes):
+            photo = BufferedInputFile(result, filename="image.png")
+        else:
+            photo = result
+        await message.answer_photo(photo=photo, caption=html.escape(prompt[:1024]))
+    except ProviderUnavailableError:
+        await message.answer(localization.get("image.error", language))
 
 
 @router.message(F.text == "💻 Разработка")
