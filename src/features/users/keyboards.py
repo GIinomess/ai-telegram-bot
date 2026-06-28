@@ -41,6 +41,17 @@ def start_screen_keyboard() -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
+def image_prompt_keyboard(
+    localization: LocalizationService, language: str
+) -> InlineKeyboardMarkup:
+    builder = InlineKeyboardBuilder()
+    builder.button(
+        text=localization.get("image.cancel", language),
+        callback_data=ImageCallback(action="cancel"),
+    )
+    return builder.as_markup()
+
+
 def image_after_keyboard(
     localization: LocalizationService, language: str
 ) -> InlineKeyboardMarkup:

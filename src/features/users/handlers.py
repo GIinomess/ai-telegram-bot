@@ -17,6 +17,7 @@ from src.features.users.keyboards import (
     ImageCallback,
     LanguageCallback,
     image_after_keyboard,
+    image_prompt_keyboard,
     language_keyboard,
     main_menu_keyboard,
 )
@@ -203,7 +204,10 @@ async def msg_image(
     language: str,
 ) -> None:
     await state.set_state(ImageStates.waiting_prompt)
-    await message.answer(localization.get("image.text", language))
+    await message.answer(
+        localization.get("image.text", language),
+        reply_markup=image_prompt_keyboard(localization, language),
+    )
 
 
 @router.message(ImageStates.waiting_prompt)
@@ -238,6 +242,24 @@ async def msg_image_prompt(
         await message.answer(localization.get("image.error", language))
 
 
+@router.callback_query(ImageCallback.filter(F.action == "cancel"))
+async def cb_image_cancel(
+    callback: CallbackQuery,
+    state: FSMContext,
+    localization: LocalizationService,
+    language: str,
+) -> None:
+    if not isinstance(callback.message, Message):
+        return
+    await state.clear()
+    await callback.message.edit_reply_markup(reply_markup=None)
+    await callback.message.answer(
+        localization.get("image.cancelled", language),
+        reply_markup=main_menu_keyboard(),
+    )
+    await callback.answer()
+
+
 @router.callback_query(ImageCallback.filter(F.action == "create_another"))
 async def cb_image_create_another(
     callback: CallbackQuery,
@@ -249,7 +271,10 @@ async def cb_image_create_another(
         return
     await state.set_state(ImageStates.waiting_prompt)
     await callback.message.edit_reply_markup(reply_markup=None)
-    await callback.message.answer(localization.get("image.text", language))
+    await callback.message.answer(
+        localization.get("image.text", language),
+        reply_markup=image_prompt_keyboard(localization, language),
+    )
     await callback.answer()
 
 
