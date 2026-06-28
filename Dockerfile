@@ -12,6 +12,7 @@ RUN uv sync --no-dev --no-install-project --frozen
 COPY alembic.ini ./
 COPY scripts/ ./scripts/
 COPY src/ ./src/
+COPY tests/ ./tests/
 
 RUN chmod +x scripts/entrypoint.sh
 
